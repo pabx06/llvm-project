@@ -11,12 +11,15 @@ env:
   - MATRIX_EVAL="CC=clang && CXX=clang++"
 
 before_script:
+  - echo "CMake"
   - cd /tmp
   - git clone --depth 1 https://github.com/Kitware/CMake.git
   - cd CMake
   - export CC='clang'
   - export CXX='clang++'
   - ./bootstrap && make && sudo make install
+  - echo "ninja"
+  - export PATH=/usr/local/bin:$PATH
   - cd /tmp
   - git clone git://github.com/ninja-build/ninja.git && cd ninja
   - git checkout release
