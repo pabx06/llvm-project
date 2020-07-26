@@ -6,7 +6,6 @@ addons:
     packages:
       - clang
       - cmake
-      - ninja
       - lld
 env:
   - MATRIX_EVAL="CC=clang && CXX=clang++"
