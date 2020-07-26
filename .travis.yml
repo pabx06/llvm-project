@@ -14,6 +14,8 @@ before_script:
   - cd /tmp
   - git clone --depth 1 https://github.com/Kitware/CMake.git
   - cd CMake
+  - export CC='clang'
+  - export CXX='clang++'
   - ./bootstrap && make && sudo make install
   - cd /tmp
   - git clone git://github.com/ninja-build/ninja.git && cd ninja
