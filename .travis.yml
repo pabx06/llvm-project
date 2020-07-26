@@ -12,20 +12,20 @@ env:
 
 before_script:
   - echo "CMake"
-  - cd /tmp
   - git clone --depth 1 https://github.com/Kitware/CMake.git
   - cd CMake
   - export CC='clang'
   - export CXX='clang++'
   - ./bootstrap && make && sudo make install
+  - cd ..
   - echo "ninja"
   - export PATH=/usr/local/bin:$PATH
-  - cd /tmp
   - git clone git://github.com/ninja-build/ninja.git && cd ninja
   - git checkout release
   - cmake -Bbuild-cmake -H.
   - cmake --build build-cmake
   - sudo cp build-cmake/ninja /usr/bin/ninja
+  - cd ..
 
 script:
   - mkdir build && cd build
