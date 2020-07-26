@@ -1,0 +1,33 @@
+language: c
+compiler: clang
+dist: bionic
+addons:
+  apt:
+    packages:
+      - clang
+      - cmake
+      - ninja
+      - lld
+env:
+  - MATRIX_EVAL="CC=clang && CXX=clang++"
+
+before_script:
+  - cd /tmp
+  - git clone --depth 1 https://github.com/Kitware/CMake.git
+  - cd CMake
+  - ./bootstrap && make && sudo make install
+  - cd /tmp
+  - git clone git://github.com/ninja-build/ninja.git && cd ninja
+  - git checkout release
+  - cmake -Bbuild-cmake -H.
+  - cmake --build build-cmake
+  - sudo cp build-cmake/ninja /usr/bin/ninja
+
+script:
+  - mkdir build && cd build
+  - cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_PROJECTS='clang;clang-tools-extra;libcxx;libcxxabi;libunwind;lldb;compiler-rt;lld;polly' ../llvm
+  - cmake --build .
+  - ninja check-all
+  - ninja list_install_components
+  - ninja install-distribution
+  - ninja package
